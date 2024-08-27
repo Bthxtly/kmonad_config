@@ -2,13 +2,10 @@ let SessionLoad = 1
 if &cp | set nocp | endif
 let s:cpo_save=&cpo
 set cpo&vim
-inoremap <C-L> <Right>
-inoremap <C-H> <Left>
-inoremap <C-K> <Up>
-inoremap <C-J> <Down>
 inoremap <silent> <expr> <PageUp> coc#pum#visible() ? coc#pum#scroll(0) : "\<PageUp>"
 inoremap <silent> <expr> <PageDown> coc#pum#visible() ? coc#pum#scroll(1) : "\<PageDown>"
 inoremap <silent> <expr> <C-Y> coc#pum#visible() ? coc#pum#confirm() : "\"
+inoremap <silent> <expr> <C-E> coc#pum#visible() ? coc#pum#cancel() : "\"
 inoremap <silent> <expr> <Up> coc#pum#visible() ? coc#pum#prev(0) : "\<Up>"
 inoremap <silent> <expr> <Down> coc#pum#visible() ? coc#pum#next(0) : "\<Down>"
 inoremap <silent> <expr> <C-P> coc#pum#visible() ? coc#pum#prev(1) : "\"
@@ -18,28 +15,39 @@ imap <C-G>s <Plug>Isurround
 imap <C-S> <Plug>Isurround
 inoremap <silent> <Plug>(ale_complete) :ALEComplete
 inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\"
-inoremap <C-Q> dd
-inoremap <C-F> W
-inoremap <C-D> <Del>
-inoremap <C-A> ^
-inoremap <C-E> $
 inoremap <C-U> u
+noremap  
+xmap <nowait>  <Plug>(VM-Find-Subword-Under)
+nmap <nowait>  <Plug>(VM-Find-Under)
+nnoremap  :q
+nnoremap  :w
+nnoremap <silent>  b :LeaderfBuffer
+nnoremap <silent>  f :LeaderfFile
+noremap  q j:q
+noremap   :nohlsearch
+noremap    /<++>:nohlsearch"_c4l
+nnoremap  vv :e ~/.vimrc
+nnoremap  to :e ~/todo.txt
 omap <silent> % <Plug>(MatchitOperationForward)
 xmap <silent> % <Plug>(MatchitVisualForward)
 nmap <silent> % <Plug>(MatchitNormalForward)
-xmap Q gq
 nmap Q gq
+xmap Q gq
 omap Q gq
 xmap S <Plug>VSurround
+nnoremap Y "+y
 omap <silent> [% <Plug>(MatchitOperationMultiBackward)
 xmap <silent> [% <Plug>(MatchitVisualMultiBackward)
 nmap <silent> [% <Plug>(MatchitNormalMultiBackward)
-nnoremap <silent> \b :LeaderfBuffer
-nnoremap <silent> \f :LeaderfFile
-map \\ <Plug>(easymotion-prefix)
-nnoremap \P "+P
-nnoremap \p "+p
-nnoremap \yy "+yy
+xmap <nowait> \\c <Plug>(VM-Visual-Cursors)
+nmap <nowait> \\gS <Plug>(VM-Reselect-Last)
+nmap <nowait> \\/ <Plug>(VM-Start-Regex-Search)
+nmap <nowait> \\\ <Plug>(VM-Add-Cursor-At-Pos)
+xmap <nowait> \\a <Plug>(VM-Visual-Add)
+xmap <nowait> \\f <Plug>(VM-Visual-Find)
+xmap <nowait> \\/ <Plug>(VM-Visual-Regex)
+xmap <nowait> \\A <Plug>(VM-Visual-All)
+nmap <nowait> \\A <Plug>(VM-Select-All)
 omap <silent> ]% <Plug>(MatchitOperationMultiForward)
 xmap <silent> ]% <Plug>(MatchitVisualMultiForward)
 nmap <silent> ]% <Plug>(MatchitNormalMultiForward)
@@ -70,6 +78,16 @@ omap iF <Plug>(textobj-function-I)
 xmap iF <Plug>(textobj-function-I)
 omap ie <Plug>(textobj-entire-i)
 xmap ie <Plug>(textobj-entire-i)
+noremap qf o
+noremap srv bH
+noremap srh bK
+noremap sv tH
+noremap sh tK
+noremap s<Left> :set splitright:vsplit
+noremap s<Right> :set nosplitright:vsplit:set splitright
+noremap s<Down> :set splitbelow:split
+noremap s<Up> :set nosplitbelow:split:set splitbelow
+noremap s <Nop>
 nmap ySS <Plug>YSsurround
 nmap ySs <Plug>YSsurround
 nmap yss <Plug>Yssurround
@@ -255,7 +273,6 @@ nnoremap <Plug>LeaderfGtagsDefinition :=leaderf#Gtags#startCmdline(0, 1, 'd'
 nnoremap <Plug>LeaderfGtagsReference :=leaderf#Gtags#startCmdline(0, 1, 'r')
 nnoremap <Plug>LeaderfGtagsSymbol :=leaderf#Gtags#startCmdline(0, 1, 's')
 nnoremap <Plug>LeaderfGtagsGrep :=leaderf#Gtags#startCmdline(0, 1, 'g')
-nnoremap <F6> :wq
 xmap <silent> <Plug>(MatchitVisualTextObject) <Plug>(MatchitVisualMultiBackward)o<Plug>(MatchitVisualMultiForward)
 onoremap <silent> <Plug>(MatchitOperationMultiForward) :call matchit#MultiMatch("W",  "o")
 onoremap <silent> <Plug>(MatchitOperationMultiBackward) :call matchit#MultiMatch("bW", "o")
@@ -622,34 +639,66 @@ onoremap <silent> <Plug>(easymotion-Tl2) :call EasyMotion#TL(2,0,1)
 xnoremap <silent> <Plug>(easymotion-fln) :call EasyMotion#SL(-1,1,0)
 onoremap <silent> <Plug>(easymotion-fln) :call EasyMotion#SL(-1,0,0)
 nmap <silent> <Plug>CommentaryUndo :echoerr "Change your <Plug>CommentaryUndo map to <Plug>Commentary<Plug>Commentary"
+noremap <C-Down> j
+xmap <nowait> <C-N> <Plug>(VM-Find-Subword-Under)
+noremap <C-Up> k
+nmap <nowait> <S-Right> <Plug>(VM-Select-l)
+nmap <nowait> <S-Left> <Plug>(VM-Select-h)
+nmap <nowait> <C-N> <Plug>(VM-Find-Under)
+nnoremap <silent> <Plug>(VM-Select-BBW) :call vm#commands#motion('BBW', v:count1, 1, 0)
+nnoremap <silent> <Plug>(VM-Select-gE) :call vm#commands#motion('gE', v:count1, 1, 0)
+nnoremap <silent> <Plug>(VM-Select-ge) :call vm#commands#motion('ge', v:count1, 1, 0)
+nnoremap <silent> <Plug>(VM-Select-E) :call vm#commands#motion('E', v:count1, 1, 0)
+nnoremap <silent> <Plug>(VM-Select-e) :call vm#commands#motion('e', v:count1, 1, 0)
+nnoremap <silent> <Plug>(VM-Select-B) :call vm#commands#motion('B', v:count1, 1, 0)
+nnoremap <silent> <Plug>(VM-Select-b) :call vm#commands#motion('b', v:count1, 1, 0)
+nnoremap <silent> <Plug>(VM-Select-W) :call vm#commands#motion('W', v:count1, 1, 0)
+nnoremap <silent> <Plug>(VM-Select-w) :call vm#commands#motion('w', v:count1, 1, 0)
+nnoremap <silent> <Plug>(VM-Select-l) :call vm#commands#motion('l', v:count1, 1, 0)
+nnoremap <silent> <Plug>(VM-Select-k) :call vm#commands#motion('k', v:count1, 1, 0)
+nnoremap <silent> <Plug>(VM-Select-j) :call vm#commands#motion('j', v:count1, 1, 0)
+nnoremap <silent> <Plug>(VM-Select-h) :call vm#commands#motion('h', v:count1, 1, 0)
+nnoremap <silent> <Plug>(VM-Mouse-Column) :call vm#commands#mouse_column()
+nmap <silent> <Plug>(VM-Mouse-Word) <Plug>(VM-Left-Mouse)<Plug>(VM-Find-Under)
+nmap <silent> <Plug>(VM-Mouse-Cursor) <Plug>(VM-Left-Mouse)<Plug>(VM-Add-Cursor-At-Pos)
+nnoremap <silent> <Plug>(VM-Left-Mouse) <LeftMouse>
+xnoremap <silent> <Plug>(VM-Visual-Regex) :call vm#commands#find_by_regex(2):call feedkeys('/', 'n')
+nnoremap <silent> <Plug>(VM-Slash-Search) @=vm#commands#find_by_regex(3)
+nnoremap <silent> <Plug>(VM-Start-Regex-Search) @=vm#commands#find_by_regex(1)
+nnoremap <silent> <Plug>(VM-Find-Under) :call vm#commands#ctrln(v:count1)
+xnoremap <silent> <Plug>(VM-Visual-Reduce) :call vm#visual#reduce()
+xnoremap <silent> <Plug>(VM-Visual-Add) :call vm#commands#visual_add()
+xnoremap <silent> <Plug>(VM-Visual-Cursors) :call vm#commands#visual_cursors()
+nnoremap <silent> <Plug>(VM-Select-All) :call vm#commands#find_all(0, 1)
+nnoremap <silent> <Plug>(VM-Reselect-Last) :call vm#commands#reselect_last()
+nnoremap <silent> <Plug>(VM-Select-Cursor-Up) :call vm#commands#add_cursor_up(1, v:count1)
+nnoremap <silent> <Plug>(VM-Select-Cursor-Down) :call vm#commands#add_cursor_down(1, v:count1)
+nnoremap <silent> <Plug>(VM-Add-Cursor-Up) :call vm#commands#add_cursor_up(0, v:count1)
+nnoremap <silent> <Plug>(VM-Add-Cursor-Down) :call vm#commands#add_cursor_down(0, v:count1)
+nnoremap <silent> <Plug>(VM-Add-Cursor-At-Word) :call vm#commands#add_cursor_at_word(1, 1)
+nnoremap <silent> <Plug>(VM-Add-Cursor-At-Pos) :call vm#commands#add_cursor_at_pos(0)
+xmap <silent> <expr> <Plug>(VM-Visual-Find) vm#operators#find(1, 1)
 nnoremap <F9> :NERDTreeToggle
 nnoremap <F8> :TagbarToggle
 nnoremap <F5> :call CompileRunGcc()
-inoremap  ^
-inoremap  <Del>
-inoremap  $
-inoremap  W
+noremap <C-H> 
+nnoremap <C-Q> :q
+nnoremap <C-S> :w
+noremap <C-Right> l
+noremap <C-Left> h
+inoremap <silent> <expr>  coc#pum#visible() ? coc#pum#cancel() : "\"
 imap S <Plug>ISurround
 imap s <Plug>Isurround
-inoremap  <Left>
 inoremap <silent> <expr> 	 coc#pum#visible() ? coc#pum#next(1) : CheckBackspace() ? "\	" : coc#refresh()
-inoremap <NL> <Down>
-inoremap  <Up>
-inoremap  <Right>
 inoremap <silent> <expr>  coc#pum#visible() ? coc#pum#confirm(): "\u\\=coc#on_enter()\"
 inoremap <silent> <expr>  coc#pum#visible() ? coc#pum#next(1) : "\"
 inoremap <silent> <expr>  coc#pum#visible() ? coc#pum#prev(1) : "\"
-inoremap  dd
 imap  <Plug>Isurround
 inoremap  u
 inoremap <silent> <expr>  coc#pum#visible() ? coc#pum#confirm() : "\"
-cnoremap Q q!
-cnoremap jk 
-inoremap jk 
-cnoremap kj 
-inoremap kj 
 let &cpo=s:cpo_save
 unlet s:cpo_save
+set background=dark
 set backspace=indent,eol,start
 set backup
 set backupdir=~/.vim/tmp/backup
@@ -666,17 +715,20 @@ set incsearch
 set langnoremap
 set nolangremap
 set laststatus=2
+set lazyredraw
 set nomodeline
-set mouse=a
+set mouse=n
 set nrformats=bin,hex
-set operatorfunc=<SNR>19_go
+set operatorfunc=<SNR>23_go
 set printoptions=paper:a4
 set ruler
-set runtimepath=~/.vim,~/.vim/plugged/gruvbox,~/.vim/plugged/vim-commentary,~/.vim/plugged/indentLine,~/.vim/plugged/rainbow,~/.vim/plugged/vim-rainbow-trails,~/.vim/plugged/kmonad-vim,~/.vim/plugged/vim-easymotion,~/.vim/plugged/ale,~/.vim/plugged/ack.vim,~/.vim/plugged/vim-surround,~/.vim/plugged/vim-textobj-user,~/.vim/plugged/vim-textobj-entire,~/.vim/plugged/vim-textobj-multiline-str,~/.vim/plugged/vim-pythonsense,~/.vim/plugged/vim-textobj-function,~/.vim/plugged/coc.nvim,~/.vim/plugged/nerdtree,~/.vim/plugged/vim-nerdtree-tabs,~/.vim/plugged/vim-devicons,~/.vim/plugged/nerdtree-git-plugin,~/.vim/plugged/tagbar,~/.vim/plugged/LeaderF,~/.vim/plugged/vim-airline,~/.vim/plugged/vim-easy-align,~/.vim/plugged/vim-gitgutter,~/.vim/plugged/mathjax-support-for-mkdp,/var/lib/vim/addons,/etc/vim,/usr/share/vim/vimfiles,/usr/share/vim/vim91,/usr/share/vim/vim91/pack/dist/opt/matchit,/usr/share/vim/vimfiles/after,/etc/vim/after,/var/lib/vim/addons/after,~/.vim/plugged/indentLine/after,~/.vim/plugged/vim-pythonsense/after,~/.vim/plugged/vim-textobj-function/after,~/.vim/plugged/nerdtree-git-plugin/after,~/.vim/after
+set runtimepath=~/.vim,~/.vim/plugged/vim-repeat,~/.vim/plugged/vim-visual-multi,~/.vim/plugged/gruvbox,~/.vim/plugged/vim-commentary,~/.vim/plugged/indentLine,~/.vim/plugged/rainbow,~/.vim/plugged/vim-rainbow-trails,~/.vim/plugged/kmonad-vim,~/.vim/plugged/vim-easymotion,~/.vim/plugged/ale,~/.vim/plugged/ack.vim,~/.vim/plugged/vim-surround,~/.vim/plugged/vim-textobj-user,~/.vim/plugged/vim-textobj-entire,~/.vim/plugged/vim-textobj-multiline-str,~/.vim/plugged/vim-pythonsense,~/.vim/plugged/vim-textobj-function,~/.vim/plugged/coc.nvim,~/.vim/plugged/nerdtree,~/.vim/plugged/vim-nerdtree-tabs,~/.vim/plugged/vim-devicons,~/.vim/plugged/nerdtree-git-plugin,~/.vim/plugged/tagbar,~/.vim/plugged/LeaderF,~/.vim/plugged/vim-airline,~/.vim/plugged/vim-easy-align,~/.vim/plugged/vim-gitgutter,~/.vim/plugged/mathjax-support-for-mkdp,/var/lib/vim/addons,/etc/vim,/usr/share/vim/vimfiles,/usr/share/vim/vim91,/usr/share/vim/vim91/pack/dist/opt/matchit,/usr/share/vim/vimfiles/after,/etc/vim/after,/var/lib/vim/addons/after,~/.vim/plugged/indentLine/after,~/.vim/plugged/vim-pythonsense/after,~/.vim/plugged/vim-textobj-function/after,~/.vim/plugged/nerdtree-git-plugin/after,~/.vim/after
 set scrolloff=5
 set shiftwidth=4
 set showcmd
 set smartcase
+set splitbelow
+set splitright
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
 set tabstop=4
 set ttimeout
@@ -685,11 +737,12 @@ set undodir=~/.vim/tmp/undo
 set undofile
 set viminfo='1000,f1,<500
 set wildmenu
+set window=49
 let s:so_save = &g:so | let s:siso_save = &g:siso | setg so=0 siso=0 | setl so=-1 siso=-1
 let v:this_session=expand("<sfile>:p")
 silent only
 silent tabonly
-cd ~/.config/kmonad
+cd ~
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
@@ -698,25 +751,26 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +1 config.kbd
-badd +236 tutorial.kbd
-badd +318 Keycode.hs
-badd +361 Keycode.hs.1
-badd +31 iso_100.kbd
-badd +0 colemak-dh-seniply-split.kbd
+badd +30 .config/kmonad/config.kbd
+badd +37 .config/kmonad/colemak-dh-seniply-split.kbd
+badd +360 .config/kmonad/Keycode.hs
+badd +88 .vimrc
 argglobal
 %argdel
-$argadd config.kbd
-edit config.kbd
+$argadd .config/kmonad/config.kbd
+set stal=2
+tabnew +setlocal\ bufhidden=wipe
+tabnew +setlocal\ bufhidden=wipe
+tabrewind
+edit .config/kmonad/config.kbd
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
-1wincmd h
 wincmd _ | wincmd |
-split
-1wincmd k
+vsplit
+2wincmd h
 wincmd w
 wincmd w
 wincmd _ | wincmd |
@@ -732,179 +786,21 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 7 + 25) / 50)
-exe 'vert 1resize ' . ((&columns * 107 + 106) / 212)
-exe '2resize ' . ((&lines * 40 + 25) / 50)
-exe 'vert 2resize ' . ((&columns * 107 + 106) / 212)
-exe '3resize ' . ((&lines * 4 + 25) / 50)
-exe 'vert 3resize ' . ((&columns * 104 + 106) / 212)
-exe '4resize ' . ((&lines * 43 + 25) / 50)
-exe 'vert 4resize ' . ((&columns * 104 + 106) / 212)
+exe 'vert 1resize ' . ((&columns * 42 + 106) / 212)
+exe 'vert 2resize ' . ((&columns * 88 + 106) / 212)
+exe '3resize ' . ((&lines * 7 + 25) / 50)
+exe 'vert 3resize ' . ((&columns * 80 + 106) / 212)
+exe '4resize ' . ((&lines * 39 + 25) / 50)
+exe 'vert 4resize ' . ((&columns * 80 + 106) / 212)
 argglobal
-terminal ++curwin ++cols=107 ++rows=7 
-let s:term_buf_12 = bufnr()
-balt config.kbd
+balt .config/kmonad/colemak-dh-seniply-split.kbd
 let s:cpo_save=&cpo
 set cpo&vim
+nmap <buffer>  hp <Plug>(GitGutterPreviewHunk)
+nmap <buffer>  hu <Plug>(GitGutterUndoHunk)
+nmap <buffer>  hs <Plug>(GitGutterStageHunk)
+xmap <buffer>  hs <Plug>(GitGutterStageHunk)
 nmap <buffer> [c <Plug>(GitGutterPrevHunk)
-nmap <buffer> \hp <Plug>(GitGutterPreviewHunk)
-nmap <buffer> \hu <Plug>(GitGutterUndoHunk)
-nmap <buffer> \hs <Plug>(GitGutterStageHunk)
-xmap <buffer> \hs <Plug>(GitGutterStageHunk)
-nmap <buffer> ]c <Plug>(GitGutterNextHunk)
-xmap <buffer> ac <Plug>(GitGutterTextObjectOuterVisual)
-omap <buffer> ac <Plug>(GitGutterTextObjectOuterPending)
-xmap <buffer> ic <Plug>(GitGutterTextObjectInnerVisual)
-omap <buffer> ic <Plug>(GitGutterTextObjectInnerPending)
-let &cpo=s:cpo_save
-unlet s:cpo_save
-setlocal keymap=
-setlocal noarabic
-setlocal noautoindent
-setlocal backupcopy=
-setlocal balloonexpr=
-setlocal nobinary
-setlocal nobreakindent
-setlocal breakindentopt=
-setlocal bufhidden=
-setlocal buflisted
-setlocal buftype=terminal
-setlocal nocindent
-setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
-setlocal cinoptions=
-setlocal cinscopedecls=public,protected,private
-setlocal cinwords=if,else,while,do,for,switch
-setlocal colorcolumn=
-setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
-setlocal commentstring=;;%s
-setlocal complete=.,w,b,u,t,i
-setlocal completefunc=
-setlocal concealcursor=inc
-setlocal conceallevel=2
-setlocal nocopyindent
-setlocal cryptmethod=
-setlocal nocursorbind
-setlocal nocursorcolumn
-setlocal nocursorline
-setlocal cursorlineopt=both
-setlocal define=
-setlocal dictionary=
-setlocal nodiff
-setlocal equalprg=
-setlocal errorformat=
-setlocal expandtab
-if &filetype != ''
-setlocal filetype=
-endif
-setlocal fillchars=
-setlocal fixendofline
-setlocal foldcolumn=0
-setlocal foldenable
-setlocal foldexpr=0
-setlocal foldignore=#
-setlocal foldlevel=0
-setlocal foldmarker={{{,}}}
-setlocal foldmethod=manual
-setlocal foldminlines=1
-setlocal foldnestmax=20
-setlocal foldtext=foldtext()
-setlocal formatexpr=
-setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
-setlocal formatoptions=tcq
-setlocal formatprg=
-setlocal grepprg=
-setlocal iminsert=0
-setlocal imsearch=-1
-setlocal include=
-setlocal includeexpr=
-setlocal indentexpr=
-setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e
-setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255
-setlocal keywordprg=
-setlocal nolinebreak
-setlocal nolisp
-setlocal lispoptions=
-setlocal lispwords=
-setlocal nolist
-setlocal listchars=
-setlocal makeencoding=
-setlocal makeprg=
-setlocal matchpairs=(:),{:},[:]
-setlocal nomodeline
-setlocal nomodifiable
-setlocal nrformats=bin,hex
-set number
-setlocal number
-setlocal numberwidth=4
-setlocal omnifunc=
-setlocal path=
-setlocal nopreserveindent
-setlocal nopreviewwindow
-setlocal quoteescape=\\
-setlocal noreadonly
-set relativenumber
-setlocal relativenumber
-setlocal norightleft
-setlocal rightleftcmd=search
-setlocal noscrollbind
-setlocal scrolloff=-1
-setlocal shiftwidth=4
-setlocal noshortname
-setlocal showbreak=
-setlocal sidescrolloff=-1
-setlocal signcolumn=auto
-setlocal nosmartindent
-setlocal nosmoothscroll
-setlocal softtabstop=0
-setlocal nospell
-setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
-setlocal spellfile=
-setlocal spelllang=en
-setlocal spelloptions=
-setlocal statusline=%!airline#statusline(1)
-setlocal suffixesadd=
-setlocal swapfile
-setlocal synmaxcol=3000
-if &syntax != ''
-setlocal syntax=
-endif
-setlocal tabstop=4
-setlocal tagcase=
-setlocal tagfunc=
-setlocal tags=
-setlocal termwinkey=
-setlocal termwinscroll=10000
-setlocal termwinsize=
-setlocal textwidth=0
-setlocal thesaurus=
-setlocal thesaurusfunc=
-setlocal undofile
-setlocal undolevels=-123456
-setlocal varsofttabstop=
-setlocal vartabstop=
-setlocal virtualedit=
-setlocal wincolor=
-setlocal nowinfixheight
-setlocal nowinfixwidth
-setlocal wrap
-setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 3) / 7)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 1
-normal! 0
-wincmd w
-argglobal
-balt iso_100.kbd
-let s:cpo_save=&cpo
-set cpo&vim
-nmap <buffer> [c <Plug>(GitGutterPrevHunk)
-nmap <buffer> \hp <Plug>(GitGutterPreviewHunk)
-nmap <buffer> \hu <Plug>(GitGutterUndoHunk)
-nmap <buffer> \hs <Plug>(GitGutterStageHunk)
-xmap <buffer> \hs <Plug>(GitGutterStageHunk)
 nmap <buffer> ]c <Plug>(GitGutterNextHunk)
 xmap <buffer> ac <Plug>(GitGutterTextObjectOuterVisual)
 omap <buffer> ac <Plug>(GitGutterTextObjectOuterPending)
@@ -941,7 +837,165 @@ setlocal nocursorbind
 setlocal nocursorcolumn
 setlocal nocursorline
 setlocal cursorlineopt=both
-setlocal define=^\\s*#\\s*define
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'kbd'
+setlocal filetype=kbd
+endif
+setlocal fillchars=
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatoptions=tcq
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,-
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispoptions=
+setlocal lispwords=
+setlocal nolist
+setlocal listchars=
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal nomodeline
+setlocal modifiable
+setlocal nrformats=bin,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+set relativenumber
+setlocal relativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=-1
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal showbreak=
+setlocal sidescrolloff=-1
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal nosmoothscroll
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal spelloptions=
+setlocal statusline=%!airline#statusline(1)
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'kbd'
+setlocal syntax=kbd
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal thesaurusfunc=
+setlocal undofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal virtualedit=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+set nowrap
+setlocal nowrap
+setlocal wrapmargin=0
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 129 - ((19 * winheight(0) + 23) / 47)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 129
+normal! 023|
+wincmd w
+argglobal
+if bufexists(fnamemodify(".config/kmonad/config.kbd", ":p")) | buffer .config/kmonad/config.kbd | else | edit .config/kmonad/config.kbd | endif
+balt .config/kmonad/colemak-dh-seniply-split.kbd
+let s:cpo_save=&cpo
+set cpo&vim
+nmap <buffer>  hp <Plug>(GitGutterPreviewHunk)
+nmap <buffer>  hu <Plug>(GitGutterUndoHunk)
+nmap <buffer>  hs <Plug>(GitGutterStageHunk)
+xmap <buffer>  hs <Plug>(GitGutterStageHunk)
+nmap <buffer> [c <Plug>(GitGutterPrevHunk)
+nmap <buffer> ]c <Plug>(GitGutterNextHunk)
+xmap <buffer> ac <Plug>(GitGutterTextObjectOuterVisual)
+omap <buffer> ac <Plug>(GitGutterTextObjectOuterPending)
+xmap <buffer> ic <Plug>(GitGutterTextObjectInnerVisual)
+omap <buffer> ic <Plug>(GitGutterTextObjectInnerPending)
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal noautoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinscopedecls=public,protected,private
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=;;%s
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal concealcursor=inc
+setlocal conceallevel=2
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=
 setlocal dictionary=
 setlocal nodiff
 setlocal equalprg=
@@ -1041,27 +1095,28 @@ setlocal virtualedit=
 setlocal wincolor=
 setlocal nowinfixheight
 setlocal nowinfixwidth
-setlocal wrap
+set nowrap
+setlocal nowrap
 setlocal wrapmargin=0
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 82 - ((12 * winheight(0) + 20) / 40)
+let s:l = 99 - ((31 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 82
-normal! 048|
+keepjumps 99
+normal! 03|
 wincmd w
 argglobal
-if bufexists(fnamemodify("colemak-dh-seniply-split.kbd", ":p")) | buffer colemak-dh-seniply-split.kbd | else | edit colemak-dh-seniply-split.kbd | endif
-balt tutorial.kbd
+if bufexists(fnamemodify(".config/kmonad/config.kbd", ":p")) | buffer .config/kmonad/config.kbd | else | edit .config/kmonad/config.kbd | endif
+balt .config/kmonad/colemak-dh-seniply-split.kbd
 let s:cpo_save=&cpo
 set cpo&vim
+nmap <buffer>  hp <Plug>(GitGutterPreviewHunk)
+nmap <buffer>  hu <Plug>(GitGutterUndoHunk)
+nmap <buffer>  hs <Plug>(GitGutterStageHunk)
+xmap <buffer>  hs <Plug>(GitGutterStageHunk)
 nmap <buffer> [c <Plug>(GitGutterPrevHunk)
-nmap <buffer> \hp <Plug>(GitGutterPreviewHunk)
-nmap <buffer> \hu <Plug>(GitGutterUndoHunk)
-nmap <buffer> \hs <Plug>(GitGutterStageHunk)
-xmap <buffer> \hs <Plug>(GitGutterStageHunk)
 nmap <buffer> ]c <Plug>(GitGutterNextHunk)
 xmap <buffer> ac <Plug>(GitGutterTextObjectOuterVisual)
 omap <buffer> ac <Plug>(GitGutterTextObjectOuterPending)
@@ -1203,23 +1258,188 @@ setlocal nowrap
 setlocal wrapmargin=0
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 53 - ((1 * winheight(0) + 2) / 4)
+let s:l = 30 - ((3 * winheight(0) + 3) / 7)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 53
-normal! 0
+keepjumps 30
+normal! 03|
 wincmd w
 argglobal
-if bufexists(fnamemodify("tutorial.kbd", ":p")) | buffer tutorial.kbd | else | edit tutorial.kbd | endif
-balt colemak-dh-seniply-split.kbd
+if bufexists(fnamemodify(".config/kmonad/Keycode.hs", ":p")) | buffer .config/kmonad/Keycode.hs | else | edit .config/kmonad/Keycode.hs | endif
+balt .config/kmonad/colemak-dh-seniply-split.kbd
 let s:cpo_save=&cpo
 set cpo&vim
+nmap <buffer>  hp <Plug>(GitGutterPreviewHunk)
+nmap <buffer>  hu <Plug>(GitGutterUndoHunk)
+nmap <buffer>  hs <Plug>(GitGutterStageHunk)
+xmap <buffer>  hs <Plug>(GitGutterStageHunk)
 nmap <buffer> [c <Plug>(GitGutterPrevHunk)
-nmap <buffer> \hp <Plug>(GitGutterPreviewHunk)
-nmap <buffer> \hu <Plug>(GitGutterUndoHunk)
-nmap <buffer> \hs <Plug>(GitGutterStageHunk)
-xmap <buffer> \hs <Plug>(GitGutterStageHunk)
+nmap <buffer> ]c <Plug>(GitGutterNextHunk)
+xmap <buffer> ac <Plug>(GitGutterTextObjectOuterVisual)
+omap <buffer> ac <Plug>(GitGutterTextObjectOuterPending)
+xmap <buffer> ic <Plug>(GitGutterTextObjectInnerVisual)
+omap <buffer> ic <Plug>(GitGutterTextObjectInnerPending)
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal noautoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinscopedecls=public,protected,private
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1fl:{-,mb:-,ex:-},:--
+setlocal commentstring=--\ %s
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal concealcursor=inc
+setlocal conceallevel=2
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'haskell'
+setlocal filetype=haskell
+endif
+setlocal fillchars=
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatoptions=croql
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,'
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispoptions=
+setlocal lispwords=
+setlocal nolist
+setlocal listchars=
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal nomodeline
+setlocal modifiable
+setlocal nrformats=bin,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=haskellcomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+set relativenumber
+setlocal relativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=-1
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal showbreak=
+setlocal sidescrolloff=-1
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal nosmoothscroll
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal spelloptions=
+setlocal statusline=%!airline#statusline(4)
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'haskell'
+setlocal syntax=haskell
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal thesaurusfunc=
+setlocal undofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal virtualedit=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+set nowrap
+setlocal nowrap
+setlocal wrapmargin=0
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 420 - ((38 * winheight(0) + 19) / 39)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 420
+normal! 03|
+wincmd w
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 42 + 106) / 212)
+exe 'vert 2resize ' . ((&columns * 88 + 106) / 212)
+exe '3resize ' . ((&lines * 7 + 25) / 50)
+exe 'vert 3resize ' . ((&columns * 80 + 106) / 212)
+exe '4resize ' . ((&lines * 39 + 25) / 50)
+exe 'vert 4resize ' . ((&columns * 80 + 106) / 212)
+tabnext
+argglobal
+enew
+let s:cpo_save=&cpo
+set cpo&vim
+nmap <buffer>  hp <Plug>(GitGutterPreviewHunk)
+nmap <buffer>  hu <Plug>(GitGutterUndoHunk)
+nmap <buffer>  hs <Plug>(GitGutterStageHunk)
+xmap <buffer>  hs <Plug>(GitGutterStageHunk)
+nmap <buffer> [c <Plug>(GitGutterPrevHunk)
 nmap <buffer> ]c <Plug>(GitGutterNextHunk)
 xmap <buffer> ac <Plug>(GitGutterTextObjectOuterVisual)
 omap <buffer> ac <Plug>(GitGutterTextObjectOuterPending)
@@ -1256,14 +1476,14 @@ setlocal nocursorbind
 setlocal nocursorcolumn
 setlocal nocursorline
 setlocal cursorlineopt=both
-setlocal define=^\\s*#\\s*define
+setlocal define=
 setlocal dictionary=
 setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != 'kbd'
-setlocal filetype=kbd
+if &filetype != ''
+setlocal filetype=
 endif
 setlocal fillchars=
 setlocal fixendofline
@@ -1289,7 +1509,7 @@ setlocal includeexpr=
 setlocal indentexpr=
 setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e
 setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255,-
+setlocal iskeyword=@,48-57,_,192-255
 setlocal keywordprg=
 setlocal nolinebreak
 setlocal nolisp
@@ -1331,12 +1551,12 @@ setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en
 setlocal spelloptions=
-setlocal statusline=%!airline#statusline(4)
+setlocal statusline=%!airline#statusline(1)
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
-if &syntax != 'kbd'
-setlocal syntax=kbd
+if &syntax != ''
+setlocal syntax=
 endif
 setlocal tabstop=4
 setlocal tagcase=
@@ -1359,25 +1579,166 @@ setlocal nowinfixwidth
 set nowrap
 setlocal nowrap
 setlocal wrapmargin=0
+tabnext
+argglobal
+enew | setl bt=help
+help :tabe@en
+let s:cpo_save=&cpo
+set cpo&vim
+nmap <buffer>  hp <Plug>(GitGutterPreviewHunk)
+nmap <buffer>  hu <Plug>(GitGutterUndoHunk)
+nmap <buffer>  hs <Plug>(GitGutterStageHunk)
+xmap <buffer>  hs <Plug>(GitGutterStageHunk)
+nmap <buffer> [c <Plug>(GitGutterPrevHunk)
+nmap <buffer> ]c <Plug>(GitGutterNextHunk)
+xmap <buffer> ac <Plug>(GitGutterTextObjectOuterVisual)
+omap <buffer> ac <Plug>(GitGutterTextObjectOuterPending)
+xmap <buffer> ic <Plug>(GitGutterTextObjectInnerVisual)
+omap <buffer> ic <Plug>(GitGutterTextObjectInnerPending)
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal noautoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal nobuflisted
+setlocal buftype=help
+setlocal nocindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinscopedecls=public,protected,private
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=;;%s
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal concealcursor=inc
+setlocal conceallevel=2
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'help'
+setlocal filetype=help
+endif
+setlocal fillchars=
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal nofoldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatoptions=tcroql
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=!-~,^*,^|,^\",192-255
+setlocal keywordprg=:help
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispoptions=
+setlocal lispwords=
+setlocal nolist
+setlocal listchars=
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal nomodeline
+setlocal nomodifiable
+setlocal nrformats=bin,hex
+set number
+setlocal nonumber
+setlocal numberwidth=4
+setlocal omnifunc=
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal readonly
+set relativenumber
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=-1
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal showbreak=
+setlocal sidescrolloff=-1
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal nosmoothscroll
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal spelloptions=
+setlocal statusline=%!airline#statusline(1)
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'help'
+setlocal syntax=help
+endif
+setlocal tabstop=8
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=78
+setlocal thesaurus=
+setlocal thesaurusfunc=
+setlocal undofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal virtualedit=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+set nowrap
+setlocal nowrap
+setlocal wrapmargin=0
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 379 - ((5 * winheight(0) + 21) / 43)
+let s:l = 266 - ((20 * winheight(0) + 24) / 48)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 379
-normal! 03|
-wincmd w
-2wincmd w
-exe '1resize ' . ((&lines * 7 + 25) / 50)
-exe 'vert 1resize ' . ((&columns * 107 + 106) / 212)
-exe '2resize ' . ((&lines * 40 + 25) / 50)
-exe 'vert 2resize ' . ((&columns * 107 + 106) / 212)
-exe '3resize ' . ((&lines * 4 + 25) / 50)
-exe 'vert 3resize ' . ((&columns * 104 + 106) / 212)
-exe '4resize ' . ((&lines * 43 + 25) / 50)
-exe 'vert 4resize ' . ((&columns * 104 + 106) / 212)
+keepjumps 266
+normal! 015|
 tabnext 1
+set stal=1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
 endif
@@ -1391,6 +1752,7 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
+nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :
